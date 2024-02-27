@@ -37,3 +37,7 @@ Descrição: Aprenda a biblioteca mais usada em desenvolvimento Front-end
 
 <h4>- Finalizando a aplicação:</h4>
 <p>Dividida em 12 partes com 49min no total</p>
+
+<hr>
+
+<p>Todas as informações do que foi feito a cada uma das aulas pode ser encontrado nas pull requests entre development e main.</p>
