@@ -104,4 +104,3 @@ Description: Learn the most used library in Front-end development
 
 <hr>
 
-<p>All the information on what was done in each of the classes can be found in the pull requests between development and main.</p>
