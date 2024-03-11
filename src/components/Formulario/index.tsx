@@ -1,76 +1,73 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import styles from './Formulario.module.scss';
 import { Botao } from '../Botao';
 import { ITarefa } from '../../types/tarefas';
 import { v4 as uuidv4 } from 'uuid';
 
-export class Formulario extends React.Component<{
+interface Props {
 	setTarefas: React.Dispatch<React.SetStateAction<ITarefa[]>>;
-}> {
-	state = {
-		tarefa: '',
-		tempo: '00:00:00',
-	};
+}
 
-	adicionarTarefa(event: React.FormEvent<HTMLFormElement>) {
+export function Formulario({ setTarefas }: Props) {
+	const [tarefa, setTarefa] = useState('');
+	const [tempo, setTempo] = useState('00:00');
+
+	function adicionarTarefa(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		this.props.setTarefas(tarefasAntigas => [
+
+		setTarefas( tarefasAntigas => [
 			...tarefasAntigas,
 			{
-				...this.state,
+				tarefa,
+				tempo,
 				selecionado: false,
 				completado: false,
 				id: uuidv4(),
 			},
 		]);
-		this.setState({ tarefa: '', tempo: '00:00' });
+
+		setTarefa('');
+		setTempo('00:00');
 	}
 
-	render() {
-		return (
-			<form
-				className={styles.novaTarefa}
-				onSubmit={this.adicionarTarefa.bind(this)}
-			>
-				<div className={styles.inputContainer}>
-					<label htmlFor="tarefa">Adicione um novo estudo</label>
-					<input
-						type="text"
-						name="tarefa"
-						id="tarefa"
-						value={this.state.tarefa}
-						onChange={event =>
-							this.setState({
-								...this.state,
-								tarefa: event.target.value,
-							})
-						}
-						placeholder="O que você quer estudar ?"
-						required
-					/>
-				</div>
-				<div className={styles.inputContainer}>
-					<label htmlFor="tempo">Tempo</label>
-					<input
-						type="time"
-						step="1"
-						name="tempo"
-						value={this.state.tempo}
-						onChange={event => {
-							this.setState({
-								...this.state,
-								tempo: event.target.value,
-							});
-						}}
-						id="tempo"
-						min="00:00:00"
-						max="01:30:00"
-						required
-					/>
-				</div>
+	return (
+		<form
+			className={styles.novaTarefa}
+			onSubmit={adicionarTarefa}>
 
-				<Botao type="submit">Adicionar</Botao>
-			</form>
-		);
-	}
+			<div className={styles.inputContainer}>
+				
+        <label htmlFor="tarefa">Adicione um novo estudo</label>
+				<input
+					type="text"
+					name="tarefa"
+					id="tarefa"
+					value={tarefa}
+					onChange={(event) => setTarefa(event.target.value)}
+					placeholder="O que você quer estudar ?"
+					required
+				/>
+
+			</div>
+
+			<div className={styles.inputContainer}>
+
+				<label htmlFor="tempo">Tempo</label>
+				<input
+					type="time"
+					step="1"
+					name="tempo"
+					value={tempo}
+					onChange={(event) => setTempo(event.target.value)}
+					id="tempo"
+					min="00:00:00"
+					max="01:30:00"
+					required
+				/>
+
+			</div>
+
+			<Botao type="submit">Adicionar</Botao>
+		</form>
+	)
 }
